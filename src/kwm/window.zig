@@ -1079,7 +1079,7 @@ fn rwm_window_listener(rwm_window: *river.WindowV1, event: river.WindowV1.Event,
 
             if (
                 window.geometry_undefined
-                or (window.floating and window.fullscreen != .output and !window.maximize)
+                or (!window.managed_by_layout() and window.fullscreen != .output and !window.maximize)
             ) {
                 if (window.output == null) {
                     window.unbound_resize(data.width, data.height);
