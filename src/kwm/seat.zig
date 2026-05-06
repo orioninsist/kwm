@@ -473,6 +473,7 @@ fn warp_cursor(self: *Self, dest: union(enum) { window: *Window, output: *Output
         .output => |output| log.debug("<{*}> warp cursor to {*}", .{ self, output }),
     }
 
+    const config = Config.get();
     const x, const y = switch (dest) {
         .window => |window| blk: {
             if (window.output) |output| {
@@ -484,9 +485,9 @@ fn warp_cursor(self: *Self, dest: union(enum) { window: *Window, output: *Output
                 const pointer_y = self.pointer_position.y;
                 // if pointer already within the window, skip
                 if (
-                    @abs(pointer_x - abs_x) < @divFloor(window.width, 2)
+                    @abs(pointer_x - abs_x) < @divFloor(window.width, 2) + config.border.width + 1
                     and
-                    @abs(pointer_y - abs_y) < @divFloor(window.height, 2)
+                    @abs(pointer_y - abs_y) < @divFloor(window.height, 2) + config.border.width + 1
                 ) {
                     return;
                 }
